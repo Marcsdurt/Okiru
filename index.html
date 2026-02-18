@@ -156,10 +156,8 @@
 
   <!-- MODAL DETALHE -->
   <div class="modal-detalhe-overlay" id="modalDetalhe">
-    <div class="modal-detalhe-wrapper">
-      <div class="genero-tags-lateral" id="detalheGenerosTags" style="display:none"></div>
-      <div class="modal-detalhe">
-        <button class="fechar-detalhe" id="fecharDetalhe">✖</button>
+    <div class="modal-detalhe">
+      <button class="fechar-detalhe" id="fecharDetalhe">✖</button>
       <button id="editBtn" class="detalhe-edit-btn" title="Editar">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
       </button>
@@ -169,6 +167,7 @@
       <div class="imagem-container"><img id="detalheCapa" src=""></div>
       <h2 id="detalheNome"></h2>
       <p id="detalheNota"></p>
+      <div class="genero-tags-inline" id="detalheGenerosTags" style="display:none"></div>
 
       <!-- Mover entre listas -->
       <div class="mover-lista-wrap">
@@ -185,7 +184,6 @@
 
       <textarea id="detalheObs" placeholder="Adicione uma observação..."></textarea>
       <button id="deleteBtn">🗑 Excluir Anime</button>
-    </div>
     </div>
   </div>
 
@@ -206,13 +204,12 @@
 
   <!-- SEARCH DETAIL -->
   <div id="searchDetailOverlay">
-    <div class="modal-detalhe-wrapper">
-      <div class="genero-tags-lateral" id="sdGenerosTags" style="display:none"></div>
-      <div class="search-detail-panel">
-        <button class="sd-close" id="sdClose">✖</button>
+    <div class="search-detail-panel">
+      <button class="sd-close" id="sdClose">✖</button>
       <h2 class="sd-title" id="sdTitle"></h2>
       <div class="sd-image-wrap"><img id="sdImage" src="" alt=""></div>
       <p class="sd-studio" id="sdStudio"></p>
+      <div class="genero-tags-inline" id="sdGenerosTags" style="display:none"></div>
       <p class="sd-desc" id="sdDesc"></p>
       <div class="sd-add-section">
         <label>Adicionar à lista:</label>
@@ -235,7 +232,6 @@
         </div>
         <button id="sdAddBtn">+ Adicionar ao Organizador</button>
       </div>
-    </div>
     </div>
   </div>
 
