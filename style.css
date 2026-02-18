@@ -1123,17 +1123,31 @@ body.dark .share-close { background: #1e2035; color: #aaa; }
   .card-title { font-size: 11px; }
   .btn-add { bottom: 76px; right: 18px; width: 52px; height: 52px; font-size: 24px; }
   .modal-overlay, .modal-detalhe-overlay { align-items: flex-end; padding: 0; }
+  .modal-detalhe-overlay .modal-detalhe-wrapper { width: 100%; }
   .modal { width: 100%; border-radius: 24px 24px 0 0; padding: 24px 20px 32px; animation: sheetUp 0.3s ease; max-height: 90dvh; overflow-y: auto; }
   .modal::before, .modal-detalhe::before { content: ''; display: block; width: 40px; height: 4px; background: rgba(0,0,0,0.12); border-radius: 2px; margin: 0 auto 18px; }
   .modal-detalhe { width: 100%; border-radius: 24px 24px 0 0; padding: 24px 20px 36px; animation: sheetUp 0.3s ease; max-height: 90dvh; overflow-y: auto; }
-  .modal-detalhe-wrapper { align-items: flex-end; }
-  .genero-tags-lateral { margin-top: 0; margin-bottom: 4px; align-self: flex-end; }
-  .genero-tag { font-size: 10px; padding: 8px 6px; }
+  .modal-detalhe-wrapper { align-items: flex-end; width: 100%; position: relative; }
+  .modal-detalhe-wrapper .genero-tags-lateral,
+  #searchDetailOverlay .genero-tags-lateral {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: auto;
+    margin: 0;
+    align-self: auto;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-height: 65vh;
+    z-index: 10;
+  }
+  .genero-tag { font-size: 10px; padding: 8px 6px; border-radius: 8px 0 0 8px; }
   @keyframes sheetUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
   #searchOverlay { padding-top: 0; align-items: flex-end; }
   .search-panel { width: 100%; border-radius: 24px 24px 0 0; max-height: 88dvh; animation: sheetUp 0.3s ease; }
   .search-panel::before { content: ''; display: block; width: 40px; height: 4px; background: rgba(0,0,0,0.12); border-radius: 2px; margin: 14px auto 0; flex-shrink: 0; }
   #searchDetailOverlay { align-items: flex-end; }
+  #searchDetailOverlay .modal-detalhe-wrapper { width: 100%; position: relative; align-items: flex-end; }
   .search-detail-panel { width: 100%; border-radius: 24px 24px 0 0; max-height: 92dvh; animation: sheetUp 0.3s ease; }
   #paginaSettings { align-items: flex-start; padding: 24px 16px 32px; overflow-y: auto; height: calc(100dvh - 64px); }
   .settings-container { max-width: 100%; }
