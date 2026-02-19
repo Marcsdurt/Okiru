@@ -964,3 +964,140 @@ document.getElementById("sdAddBtn").addEventListener("click", async () => {
   btn.textContent = "✅ Adicionado!"; btn.style.background = "#4caf50";
   setTimeout(() => { searchDetailOverlay.style.display = "none"; sdAnimeData = null; }, 1200);
 });
+
+// ======== EXPORTAR / IMPORTAR DADOS ========
+
+// ── Exportar ──
+document.getElementById("btnExportarDados").addEventListener("click", () => {
+  const payload = {
+    versao: "1.0",
+    exportadoEm: new Date().toISOString(),
+    usuario:  JSON.parse(localStorage.getItem("usuario") || "{}"),
+    animes:   JSON.parse(localStorage.getItem("animes")  || "[]"),
+    ordenacao: JSON.parse(localStorage.getItem("ordenacao") || "null"),
+    tutorial:  localStorage.getItem("okiru_tutorial_done") || null,
+  };
+
+  const json = JSON.stringify(payload, null, 2);
+  const blob = new Blob([json], { type: "application/json" });
+  const url  = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `okiru-backup-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+
+  mostrarToast("📦 Backup exportado com sucesso!");
+
+  // Feedback visual no botão
+  const btn = document.getElementById("btnExportarDados");
+  const orig = btn.innerHTML;
+  btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" style="width:18px;height:18px;fill:white"><path d="M256 416.1L131.3 291.3L86.06 336.6L256 506.5L553.9 208.6L508.7 163.4L256 416.1z"/></svg> Exportado!`;
+  btn.style.background = "linear-gradient(135deg,#34d399,#059669)";
+  setTimeout(() => { btn.innerHTML = orig; btn.style.background = ""; }, 2200);
+});
+
+// ── Toggle de agendamento semanal ──
+const scheduleToggle = document.getElementById("scheduleToggle");
+const scheduleToast  = document.getElementById("scheduleToast");
+const scheduleRow    = document.getElementById("scheduleRow");
+
+// Restaurar estado do toggle
+scheduleToggle.checked = localStorage.getItem("okiru_schedule") === "1";
+if (scheduleToggle.checked) {
+  scheduleToast.classList.add("visible");
+  scheduleRow.classList.add("schedule-toggle-active");
+}
+
+scheduleToggle.addEventListener("change", () => {
+  const ativo = scheduleToggle.checked;
+  localStorage.setItem("okiru_schedule", ativo ? "1" : "0");
+
+  if (ativo) {
+    scheduleToast.classList.add("visible");
+    scheduleRow.classList.add("schedule-toggle-active");
+    agendarExportacao();
+  } else {
+    scheduleToast.classList.remove("visible");
+    scheduleRow.classList.remove("schedule-toggle-active");
+  }
+});
+
+// Simulação de agendamento semanal usando setTimeout (7 dias)
+function agendarExportacao() {
+  const UMA_SEMANA_MS = 7 * 24 * 60 * 60 * 1000;
+  const ultimaExportacao = parseInt(localStorage.getItem("okiru_last_export") || "0");
+  const agora = Date.now();
+  const diff  = agora - ultimaExportacao;
+
+  // Se já passou 1 semana (ou nunca exportou), agenda para agora + 1 semana
+  const delay = diff >= UMA_SEMANA_MS ? UMA_SEMANA_MS : UMA_SEMANA_MS - diff;
+  setTimeout(() => {
+    if (localStorage.getItem("okiru_schedule") !== "1") return;
+    document.getElementById("btnExportarDados").click();
+    localStorage.setItem("okiru_last_export", String(Date.now()));
+    agendarExportacao(); // re-agenda para a próxima semana
+  }, delay);
+}
+
+// Inicializa o agendamento se o toggle estiver ativo ao carregar
+if (localStorage.getItem("okiru_schedule") === "1") agendarExportacao();
+
+// ── Importar ──
+document.getElementById("importFileInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const dados = JSON.parse(ev.target.result);
+
+      // Validação mínima
+      if (!dados.versao || !Array.isArray(dados.animes)) {
+        alert("❌ Arquivo inválido ou corrompido. Certifique-se de usar um backup gerado pelo Okiru.");
+        return;
+      }
+
+      // Restaurar dados
+      if (dados.animes)    localStorage.setItem("animes",   JSON.stringify(dados.animes));
+      if (dados.usuario)   localStorage.setItem("usuario",  JSON.stringify(dados.usuario));
+      if (dados.ordenacao) localStorage.setItem("ordenacao", JSON.stringify(dados.ordenacao));
+      if (dados.tutorial)  localStorage.setItem("okiru_tutorial_done", dados.tutorial);
+
+      // Aplicar na interface sem recarregar
+      animes = dados.animes;
+      if (dados.usuario) {
+        usuario = dados.usuario;
+        aplicarUsuario();
+        // Atualizar campos de settings
+        const campoNome = document.getElementById("novoNome");
+        const campoFoto = document.getElementById("novaFoto");
+        const prevImg   = document.getElementById("settingsAvatarPreview");
+        if (campoNome) campoNome.value = usuario.nome || "";
+        if (campoFoto) campoFoto.value = usuario.foto || "";
+        if (prevImg)   prevImg.src     = usuario.foto || "";
+      }
+      renderizarAnimes();
+
+      // Badge de sucesso
+      const badge = document.getElementById("importSuccessBadge");
+      badge.style.display = "flex";
+      badge.innerHTML = `✅ ${dados.animes.length} anime(s) importado(s) com sucesso!`;
+      setTimeout(() => { badge.style.display = "none"; }, 4000);
+
+      mostrarToast("🎌 Dados restaurados com sucesso!");
+
+    } catch (err) {
+      alert("❌ Não foi possível ler o arquivo. Verifique se é um JSON válido.");
+      console.error("Erro ao importar:", err);
+    }
+
+    // Limpa o input para permitir reimportar o mesmo arquivo
+    e.target.value = "";
+  };
+  reader.readAsText(file);
+});
