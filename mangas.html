@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Okiru — Mangás</title>
+  <meta name="application-name" content="Okiru Mangás">
+  <meta name="theme-color" content="#9b2335">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+  <link rel="stylesheet" href="manga.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">📖</div>
+    <a href="index.html" class="icon" id="btnVoltar" title="Voltar para Animes">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M9.373 329.4l144 144c12.5 12.5 32.75 12.5 45.25 0s12.5-32.75 0-45.25L109.3 339H480c17.69 0 32-14.31 32-32s-14.31-32-32-32H109.3l89.38-89.38c12.5-12.5 12.5-32.75 0-45.25s-32.75-12.5-45.25 0l-144 144C-3.125 296.6-3.125 316.9 9.373 329.4z"/></svg>
+    </a>
+    <div class="icon active" id="btnHome" title="Início">🏠</div>
+    <div class="icon" id="btnSearch" title="Buscar mangá">🔍</div>
+    <div class="icon" id="btnAdulto" title="Mangás +18">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M267 48C230.6 48 209.2 106.3 198.7 160L168 160C154.7 160 144 170.7 144 184C144 197.3 154.7 208 168 208L192 208L192 240C192 257 195.3 273.2 201.3 288L192 288L192 288L171.5 288C156.3 288 144 300.3 144 315.5C144 318.5 144.5 321.4 145.4 324.2L174.3 410.8C136.2 443.6 112 492.1 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 492.1 503.8 443.6 465.7 410.9L494.6 324.3C495.5 321.5 496 318.6 496 315.6C496 300.4 483.7 288.1 468.5 288.1L448 288.1L448 288.1L438.7 288.1C444.7 273.3 448 257.1 448 240.1L448 208.1L472 208.1C485.3 208.1 496 197.4 496 184.1C496 170.8 485.3 160.1 472 160.1L441.3 160.1C430.9 106.4 409.4 48.1 373 48.1C363.4 48.1 354 52 345.5 56.3C337.3 60.4 327.1 64.1 320 64.1C312.9 64.1 302.7 60.4 294.5 56.3C286 51.9 276.6 48 267 48zM360.7 532.4L335.9 461.5L363.8 429C366.5 425.8 368 421.8 368 417.6C368 407.9 360.2 400.1 350.5 400.1L289.5 400.1C279.8 400.1 272 407.9 272 417.6C272 421.8 273.5 425.8 276.2 429L304.1 461.5L279.3 532.4L222.3 352L258 352C276.4 362.2 297.5 368 320 368C342.5 368 363.6 362.2 382 352L417.7 352L360.7 532.4zM320 320C285.3 320 255.8 297.9 244.7 267C250.4 270.2 257 272 264 272L276.4 272C292.9 272 307.5 261.4 312.7 245.8C315 238.8 324.9 238.8 327.2 245.8C332.4 261.4 347.1 272 363.5 272L375.9 272C382.9 272 389.5 270.2 395.2 267C384.1 297.9 354.6 320 319.9 320z"/></svg>
+    </div>
+  </aside>
+
+  <!-- PÁGINA PRINCIPAL MANGÁS -->
+  <div id="paginaMangas">
+
+    <div class="manga-header">
+      <div class="manga-header-top">
+        <div class="manga-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 576L192 576C139 576 96 533 96 480L96 160C96 107 139 64 192 64L496 64C522.5 64 544 85.5 544 112L544 400C544 420.9 530.6 438.7 512 445.3L512 512C529.7 512 544 526.3 544 544C544 561.7 529.7 576 512 576L480 576zM192 448C174.3 448 160 462.3 160 480C160 497.7 174.3 512 192 512L448 512L448 448L192 448zM224 216C224 229.3 234.7 240 248 240L424 240C437.3 240 448 229.3 448 216C448 202.7 437.3 192 424 192L248 192C234.7 192 224 202.7 224 216zM248 288C234.7 288 224 298.7 224 312C224 325.3 234.7 336 248 336L424 336C437.3 336 448 325.3 448 312C448 298.7 437.3 288 424 288L248 288z"/></svg>
+        </div>
+        <div>
+          <h2 class="manga-titulo">Meus Mangás</h2>
+          <p class="manga-sub">Sua biblioteca pessoal</p>
+        </div>
+      </div>
+      <div class="manga-stats-row">
+        <div class="manga-stat"><div class="manga-stat-num" id="mStatLendo">0</div><div class="manga-stat-lbl">Lendo</div></div>
+        <div class="manga-stat"><div class="manga-stat-num" id="mStatLidos">0</div><div class="manga-stat-lbl">Lidos</div></div>
+        <div class="manga-stat"><div class="manga-stat-num" id="mStatPara">0</div><div class="manga-stat-lbl">Na fila</div></div>
+      </div>
+    </div>
+
+    <!-- Busca local -->
+    <div class="busca-local-wrap">
+      <div class="busca-local-inner">
+        <span class="busca-local-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z"/></svg>
+        </span>
+        <input type="text" id="buscaLocalManga" placeholder="Buscar na minha lista...">
+        <button class="busca-local-clear" id="buscaLocalMangaClear">✕</button>
+      </div>
+    </div>
+
+    <div class="manga-container">
+      <section class="categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot dot-lendo"></span>
+            <h3>Lendo</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn" id="mFilterLendo" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count" id="mCountLendo">0</span>
+          </div>
+        </div>
+        <div class="lista" id="mListaLendo"></div>
+      </section>
+
+      <section class="categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot dot-lidos"></span>
+            <h3>Lidos</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn" id="mFilterLidos" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count" id="mCountLidos">0</span>
+          </div>
+        </div>
+        <div class="lista" id="mListaLidos"></div>
+      </section>
+
+      <section class="categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot dot-para"></span>
+            <h3>Para ler</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn" id="mFilterPara" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count" id="mCountPara">0</span>
+          </div>
+        </div>
+        <div class="lista" id="mListaPara"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- BOTÃO ADD -->
+  <button class="btn-add" id="btnAddManga">+</button>
+
+  <!-- MODAL ADD MANUAL -->
+  <div class="modal-overlay" id="modalManga">
+    <div class="modal">
+      <h2>Adicionar Mangá</h2>
+      <div class="modal-field">
+        <label>Nome do mangá <span class="campo-obrigatorio">*</span></label>
+        <input type="text" id="mNome" placeholder="Ex: Berserk">
+      </div>
+      <div class="modal-field">
+        <div class="modal-field-header">
+          <label>Link da capa <span class="campo-obrigatorio">*</span></label>
+          <button class="galeria-btn" id="btnGaleriaManga">Galeria</button>
+        </div>
+        <input type="text" id="mCapa" placeholder="https://...">
+        <input type="file" id="mCapaFileInput" accept="image/*" style="display:none">
+      </div>
+      <div class="modal-field">
+        <label>Nota (0 – 10) <span class="campo-obrigatorio">*</span></label>
+        <input type="number" id="mNota" placeholder="Ex: 9.5" step="0.1" min="0" max="10">
+      </div>
+      <div class="modal-field">
+        <label>Lista</label>
+        <select id="mStatus">
+          <option value="lendo">Lendo</option>
+          <option value="lidos">Lidos</option>
+          <option value="paraLer">Para ler</option>
+        </select>
+      </div>
+      <div class="modal-field-row">
+        <div class="modal-field" style="flex:1">
+          <label>Total de caps.</label>
+          <input type="number" id="mTotalCaps" placeholder="Ex: 364" min="0">
+        </div>
+        <div class="modal-field" style="flex:1">
+          <label>Caps. lidos</label>
+          <input type="number" id="mLidosCaps" placeholder="Ex: 100" min="0">
+        </div>
+      </div>
+      <div class="modal-botoes">
+        <button id="mFechar">Cancelar</button>
+        <button id="mSalvar">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHE -->
+  <div class="modal-detalhe-overlay" id="modalDetalheManga">
+    <div class="modal-detalhe">
+      <button class="fechar-detalhe" id="mFecharDetalhe">✖</button>
+      <button id="mEditBtn" class="detalhe-edit-btn" title="Editar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
+      </button>
+      <img id="mDetalheCapa" src="" alt="capa" class="detalhe-capa">
+      <h2 id="mDetalheNome" class="detalhe-nome"></h2>
+      <p id="mDetalheNota" class="detalhe-nota"></p>
+      <div id="mDetalheGenerosTags" class="detalhe-generos-tags"></div>
+      <div id="mDetalheEpisodios" class="detalhe-episodios"></div>
+      <select id="mMoverParaLista" class="detalhe-mover">
+        <option value="lendo">📖 Lendo</option>
+        <option value="lidos">✅ Lidos</option>
+        <option value="paraLer">🕐 Para ler</option>
+      </select>
+      <textarea id="mDetalheObs" class="detalhe-obs" placeholder="Suas anotações..."></textarea>
+      <button id="mDeleteBtn" class="detalhe-delete">🗑 Remover da lista</button>
+    </div>
+  </div>
+
+  <!-- BUSCA JIKAN -->
+  <div id="searchMangaOverlay" class="search-overlay">
+    <div class="search-panel">
+      <div class="search-header">
+        <input type="text" id="searchMangaInput" placeholder="Buscar mangá no MyAnimeList..." class="search-input">
+        <button id="btnCloseMangaSearch" class="search-close">✖</button>
+      </div>
+      <p class="search-label" id="searchMangaLabel">Resultados</p>
+      <div class="search-body" id="searchMangaResults"></div>
+    </div>
+  </div>
+
+  <!-- DETALHE BUSCA -->
+  <div id="searchMangaDetailOverlay" class="search-detail-overlay">
+    <div class="search-detail-panel">
+      <button class="sd-close" id="sdMangaClose">✖</button>
+      <img id="sdMangaImage" src="" alt="" class="sd-image">
+      <h3 id="sdMangaTitle" class="sd-title"></h3>
+      <p id="sdMangaAutor" class="sd-studio"></p>
+      <div id="sdMangaGenerosTags" class="detalhe-generos-tags" style="display:none;margin:8px 0 4px;justify-content:center"></div>
+      <p id="sdMangaDesc" class="sd-desc"></p>
+      <div class="sd-eps-row">
+        <div class="sd-field">
+          <label>Nota</label>
+          <input type="number" id="sdMangaNota" min="0" max="10" step="0.1" placeholder="0–10">
+        </div>
+        <div class="sd-field">
+          <label>Total caps.</label>
+          <input type="number" id="sdMangaTotalCaps" min="0" placeholder="?">
+        </div>
+        <div class="sd-field">
+          <label>Lidos</label>
+          <input type="number" id="sdMangaLidosCaps" min="0" placeholder="0">
+        </div>
+      </div>
+      <select id="sdMangaStatus" class="sd-status">
+        <option value="lendo">📖 Lendo</option>
+        <option value="lidos">✅ Lidos</option>
+        <option value="paraLer">🕐 Para ler</option>
+      </select>
+      <button id="sdMangaAddBtn">+ Adicionar à Biblioteca</button>
+    </div>
+  </div>
+
+  <!-- PÁGINA +18 -->
+  <div id="paginaAdulto" class="adulto-page" style="display:none;">
+
+    <div class="adulto-header">
+      <div class="adulto-header-top">
+        <div class="adulto-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M267 48C230.6 48 209.2 106.3 198.7 160L168 160C154.7 160 144 170.7 144 184C144 197.3 154.7 208 168 208L192 208L192 240C192 257 195.3 273.2 201.3 288L192 288L192 288L171.5 288C156.3 288 144 300.3 144 315.5C144 318.5 144.5 321.4 145.4 324.2L174.3 410.8C136.2 443.6 112 492.1 112 546.3C112 562.7 125.3 576 141.7 576L498.3 576C514.7 576 528 562.7 528 546.3C528 492.1 503.8 443.6 465.7 410.9L494.6 324.3C495.5 321.5 496 318.6 496 315.6C496 300.4 483.7 288.1 468.5 288.1L448 288.1L448 288.1L438.7 288.1C444.7 273.3 448 257.1 448 240.1L448 208.1L472 208.1C485.3 208.1 496 197.4 496 184.1C496 170.8 485.3 160.1 472 160.1L441.3 160.1C430.9 106.4 409.4 48.1 373 48.1C363.4 48.1 354 52 345.5 56.3C337.3 60.4 327.1 64.1 320 64.1C312.9 64.1 302.7 60.4 294.5 56.3C286 51.9 276.6 48 267 48zM360.7 532.4L335.9 461.5L363.8 429C366.5 425.8 368 421.8 368 417.6C368 407.9 360.2 400.1 350.5 400.1L289.5 400.1C279.8 400.1 272 407.9 272 417.6C272 421.8 273.5 425.8 276.2 429L304.1 461.5L279.3 532.4L222.3 352L258 352C276.4 362.2 297.5 368 320 368C342.5 368 363.6 362.2 382 352L417.7 352L360.7 532.4zM320 320C285.3 320 255.8 297.9 244.7 267C250.4 270.2 257 272 264 272L276.4 272C292.9 272 307.5 261.4 312.7 245.8C315 238.8 324.9 238.8 327.2 245.8C332.4 261.4 347.1 272 363.5 272L375.9 272C382.9 272 389.5 270.2 395.2 267C384.1 297.9 354.6 320 319.9 320z"/></svg>
+        </div>
+        <div>
+          <h2 class="adulto-titulo">Mangás +18</h2>
+          <p class="adulto-sub">Sua coleção privada</p>
+        </div>
+        <span class="adulto-badge">+18</span>
+      </div>
+      <div class="adulto-stats-row">
+        <div class="adulto-stat"><div class="adulto-stat-num" id="aStatLendo">0</div><div class="adulto-stat-lbl">Lendo</div></div>
+        <div class="adulto-stat"><div class="adulto-stat-num" id="aStatLidos">0</div><div class="adulto-stat-lbl">Lidos</div></div>
+        <div class="adulto-stat"><div class="adulto-stat-num" id="aStatPara">0</div><div class="adulto-stat-lbl">Na fila</div></div>
+      </div>
+    </div>
+
+    <!-- Aviso cadastro manual -->
+    <div class="adulto-aviso">
+      <span>ℹ️</span>
+      <span>Os mangás desta aba precisam ser adicionados manualmente. Aperte o <strong>+</strong> para cadastrar.</span>
+    </div>
+
+    <!-- Busca local -->
+    <div class="busca-local-wrap">
+      <div class="busca-local-inner adulto-busca-inner">
+        <span class="busca-local-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M480 272C480 317.9 465.1 360.3 440 394.7L566.6 521.4C579.1 533.9 579.1 554.2 566.6 566.7C554.1 579.2 533.8 579.2 521.3 566.7L394.7 440C360.3 465.1 317.9 480 272 480C157.1 480 64 386.9 64 272C64 157.1 157.1 64 272 64C386.9 64 480 157.1 480 272zM272 416C351.5 416 416 351.5 416 272C416 192.5 351.5 128 272 128C192.5 128 128 192.5 128 272C128 351.5 192.5 416 272 416z"/></svg>
+        </span>
+        <input type="text" id="buscaLocalAdulto" placeholder="Buscar na coleção privada...">
+        <button class="busca-local-clear" id="buscaLocalAdultoClear">✕</button>
+      </div>
+    </div>
+
+    <div class="manga-container">
+      <section class="categoria adulto-categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot adulto-dot-lendo"></span>
+            <h3>Lendo</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn adulto-filter" id="aFilterLendo" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count adulto-count" id="aCountLendo">0</span>
+          </div>
+        </div>
+        <div class="lista" id="aListaLendo"></div>
+      </section>
+
+      <section class="categoria adulto-categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot adulto-dot-lidos"></span>
+            <h3>Lidos</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn adulto-filter" id="aFilterLidos" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count adulto-count" id="aCountLidos">0</span>
+          </div>
+        </div>
+        <div class="lista" id="aListaLidos"></div>
+      </section>
+
+      <section class="categoria adulto-categoria">
+        <div class="categoria-header">
+          <div class="categoria-header-left">
+            <span class="categoria-dot adulto-dot-para"></span>
+            <h3>Para ler</h3>
+          </div>
+          <div class="categoria-actions">
+            <button class="filter-btn adulto-filter" id="aFilterPara" data-order="recentes">↓ Recentes</button>
+            <span class="categoria-count adulto-count" id="aCountPara">0</span>
+          </div>
+        </div>
+        <div class="lista" id="aListaPara"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- BOTÃO ADD ADULTO -->
+  <button class="btn-add adulto-btn-add" id="btnAddAdulto" style="display:none;">+</button>
+
+  <!-- MODAL ADD ADULTO -->
+  <div class="modal-overlay" id="modalAdulto">
+    <div class="modal adulto-modal">
+      <h2>Adicionar Mangá +18</h2>
+      <div class="modal-field">
+        <label>Título <span class="campo-obrigatorio">*</span></label>
+        <input type="text" id="aNome" placeholder="Ex: Nome do mangá">
+      </div>
+      <div class="modal-field">
+        <div class="modal-field-header">
+          <label>Link da capa <span class="campo-obrigatorio">*</span></label>
+          <button class="galeria-btn adulto-galeria-btn" id="btnGaleriaAdulto">Galeria</button>
+        </div>
+        <input type="text" id="aCapa" placeholder="https://...">
+        <input type="file" id="aCapaFileInput" accept="image/*" style="display:none">
+      </div>
+      <div class="modal-field">
+        <label>Nota (0 – 10) <span class="campo-obrigatorio">*</span></label>
+        <input type="number" id="aNota" placeholder="Ex: 8.5" step="0.1" min="0" max="10">
+      </div>
+      <div class="modal-field">
+        <label>Autor</label>
+        <input type="text" id="aAutor" placeholder="Nome do autor">
+      </div>
+      <div class="modal-field">
+        <label>Lista</label>
+        <select id="aStatus">
+          <option value="lendo">Lendo</option>
+          <option value="lidos">Lidos</option>
+          <option value="paraLer">Para ler</option>
+        </select>
+      </div>
+      <div class="modal-field-row">
+        <div class="modal-field" style="flex:1">
+          <label>Total de caps.</label>
+          <input type="number" id="aTotalCaps" placeholder="Ex: 60" min="0">
+        </div>
+        <div class="modal-field" style="flex:1">
+          <label>Caps. lidos</label>
+          <input type="number" id="aLidosCaps" placeholder="Ex: 20" min="0">
+        </div>
+      </div>
+      <div class="modal-field">
+        <label>Anotações</label>
+        <textarea id="aObs" placeholder="Tags, gênero, observações..." style="padding:10px;border-radius:12px;border:1.5px solid #e0d0d0;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;min-height:60px;outline:none;background:#fdf8f8;color:#333;"></textarea>
+      </div>
+      <div class="modal-botoes">
+        <button id="aFechar">Cancelar</button>
+        <button id="aSalvar">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DETALHE ADULTO -->
+  <div class="modal-detalhe-overlay" id="modalDetalheAdulto">
+    <div class="modal-detalhe adulto-modal-detalhe">
+      <button class="fechar-detalhe" id="aFecharDetalhe">✖</button>
+      <button id="aEditBtn" class="detalhe-edit-btn adulto-edit-btn" title="Editar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
+      </button>
+      <img id="aDetalheCapa" src="" alt="capa" class="detalhe-capa">
+      <h2 id="aDetalheNome" class="detalhe-nome"></h2>
+      <p id="aDetalheNota" class="detalhe-nota adulto-nota"></p>
+      <p id="aDetalheAutor" class="adulto-detalhe-autor"></p>
+      <div id="aDetalheEpisodios" class="detalhe-episodios"></div>
+      <select id="aMoverParaLista" class="detalhe-mover adulto-mover">
+        <option value="lendo">📖 Lendo</option>
+        <option value="lidos">✅ Lidos</option>
+        <option value="paraLer">🕐 Para ler</option>
+      </select>
+      <textarea id="aDetalheObs" class="detalhe-obs" placeholder="Tags, gênero, observações..."></textarea>
+      <button id="aDeleteBtn" class="detalhe-delete adulto-delete-btn">🗑 Remover da lista</button>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toastManga" class="toast"></div>
+
+  <script src="manga.js"></script>
+</body>
+</html>
