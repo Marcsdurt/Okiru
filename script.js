@@ -216,6 +216,40 @@ document.getElementById("filterAssistindo").addEventListener("click", () => togg
 document.getElementById("filterAssistidos").addEventListener("click", () => toggleOrdenacao("assistidos"));
 document.getElementById("filterPara").addEventListener("click", () => toggleOrdenacao("paraAssistir"));
 
+// ======== RECORTE DE IMAGEM (2:3) ========
+function recortarImagem2x3(file, callback) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const W = 260, H = 390; // 2:3
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext("2d");
+      const ratio = Math.max(W / img.width, H / img.height);
+      const nw = img.width * ratio, nh = img.height * ratio;
+      const ox = (W - nw) / 2, oy = (H - nh) / 2;
+      ctx.drawImage(img, ox, oy, nw, nh);
+      callback(canvas.toDataURL("image/jpeg", 0.88));
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Galeria no modal de adicionar anime
+document.getElementById("btnGaleriaAnime").addEventListener("click", () => {
+  document.getElementById("capaFileInput").click();
+});
+document.getElementById("capaFileInput").addEventListener("change", e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  recortarImagem2x3(file, dataUrl => {
+    document.getElementById("capa").value = dataUrl;
+  });
+  e.target.value = "";
+});
+
 // ======== MODAL ADD ========
 const modal = document.getElementById("modal");
 document.querySelector(".btn-add").addEventListener("click", () => modal.style.display = "flex");
@@ -970,12 +1004,14 @@ document.getElementById("sdAddBtn").addEventListener("click", async () => {
 // ── Exportar ──
 document.getElementById("btnExportarDados").addEventListener("click", () => {
   const payload = {
-    versao: "1.0",
+    versao: "1.1",
     exportadoEm: new Date().toISOString(),
-    usuario:  JSON.parse(localStorage.getItem("usuario") || "{}"),
-    animes:   JSON.parse(localStorage.getItem("animes")  || "[]"),
-    ordenacao: JSON.parse(localStorage.getItem("ordenacao") || "null"),
-    tutorial:  localStorage.getItem("okiru_tutorial_done") || null,
+    usuario:       JSON.parse(localStorage.getItem("usuario")       || "{}"),
+    animes:        JSON.parse(localStorage.getItem("animes")        || "[]"),
+    mangas:        JSON.parse(localStorage.getItem("mangas")        || "[]"),
+    mangasAdultos: JSON.parse(localStorage.getItem("mangasAdultos") || "[]"),
+    ordenacao:     JSON.parse(localStorage.getItem("ordenacao")     || "null"),
+    tutorial:      localStorage.getItem("okiru_tutorial_done")      || null,
   };
 
   const json = JSON.stringify(payload, null, 2);
@@ -1063,10 +1099,12 @@ document.getElementById("importFileInput").addEventListener("change", (e) => {
       }
 
       // Restaurar dados
-      if (dados.animes)    localStorage.setItem("animes",   JSON.stringify(dados.animes));
-      if (dados.usuario)   localStorage.setItem("usuario",  JSON.stringify(dados.usuario));
-      if (dados.ordenacao) localStorage.setItem("ordenacao", JSON.stringify(dados.ordenacao));
-      if (dados.tutorial)  localStorage.setItem("okiru_tutorial_done", dados.tutorial);
+      if (dados.animes)        localStorage.setItem("animes",        JSON.stringify(dados.animes));
+      if (dados.mangas)        localStorage.setItem("mangas",        JSON.stringify(dados.mangas));
+      if (dados.mangasAdultos) localStorage.setItem("mangasAdultos", JSON.stringify(dados.mangasAdultos));
+      if (dados.usuario)       localStorage.setItem("usuario",       JSON.stringify(dados.usuario));
+      if (dados.ordenacao)     localStorage.setItem("ordenacao",     JSON.stringify(dados.ordenacao));
+      if (dados.tutorial)      localStorage.setItem("okiru_tutorial_done", dados.tutorial);
 
       // Aplicar na interface sem recarregar
       animes = dados.animes;
@@ -1086,7 +1124,8 @@ document.getElementById("importFileInput").addEventListener("change", (e) => {
       // Badge de sucesso
       const badge = document.getElementById("importSuccessBadge");
       badge.style.display = "flex";
-      badge.innerHTML = `✅ ${dados.animes.length} anime(s) importado(s) com sucesso!`;
+      const totalMangas = (dados.mangas?.length || 0) + (dados.mangasAdultos?.length || 0);
+      badge.innerHTML = `✅ ${dados.animes.length} anime(s)${totalMangas > 0 ? ` e ${totalMangas} mangá(s)` : ""} importados com sucesso!`;
       setTimeout(() => { badge.style.display = "none"; }, 4000);
 
       mostrarToast("🎌 Dados restaurados com sucesso!");
