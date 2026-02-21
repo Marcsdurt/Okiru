@@ -192,37 +192,55 @@
   <!-- MODAL DETALHE -->
   <div class="modal-detalhe-overlay" id="modalDetalhe">
     <div class="modal-detalhe">
-      <button class="fechar-detalhe" id="fecharDetalhe">✖</button>
-      <button id="editBtn" class="detalhe-edit-btn" title="Editar">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
-      </button>
-      <button class="detalhe-share-btn" id="detalheShareBtn" title="Compartilhar">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M371.8 82.4C359.8 87.4 352 99 352 112L352 192L240 192C142.8 192 64 270.8 64 368C64 481.3 145.5 531.9 164.2 542.1C166.7 543.5 169.5 544 172.3 544C183.2 544 192 535.1 192 524.3C192 516.8 187.7 509.9 182.2 504.8C172.8 496 160 478.4 160 448.1C160 395.1 203 352.1 256 352.1L352 352.1L352 432.1C352 445 359.8 456.7 371.8 461.7C383.8 466.7 397.5 463.9 406.7 454.8L566.7 294.8C579.2 282.3 579.2 262 566.7 249.5L406.7 89.5C397.5 80.3 383.8 77.6 371.8 82.6z"/></svg>
-      </button>
-      <div class="imagem-container"><img id="detalheCapa" src=""></div>
-      <h2 id="detalheNome"></h2>
-      <div id="detalheFilmeBadge" class="detalhe-filme-badge" style="display:none">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M128 128C92.7 128 64 156.7 64 192L64 448C64 483.3 92.7 512 128 512L384 512C419.3 512 448 483.3 448 448L448 192C448 156.7 419.3 128 384 128L128 128zM496 400L569.5 458.8C573.7 462.2 578.9 464 584.3 464C597.4 464 608 453.4 608 440.3L608 199.7C608 186.6 597.4 176 584.3 176C578.9 176 573.7 177.8 569.5 181.2L496 240L496 400z"/></svg>
-        Filme Anime
+
+      <!-- Hero: capa em destaque com gradiente -->
+      <div class="detalhe-hero">
+        <img id="detalheCapa" src="" class="detalhe-hero-img">
+        <div class="detalhe-hero-fade"></div>
+        <!-- Botões flutuantes sobre o hero -->
+        <div class="detalhe-hero-actions">
+          <button class="detalhe-fab" id="detalheShareBtn" title="Compartilhar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M371.8 82.4C359.8 87.4 352 99 352 112L352 192L240 192C142.8 192 64 270.8 64 368C64 481.3 145.5 531.9 164.2 542.1C166.7 543.5 169.5 544 172.3 544C183.2 544 192 535.1 192 524.3C192 516.8 187.7 509.9 182.2 504.8C172.8 496 160 478.4 160 448.1C160 395.1 203 352.1 256 352.1L352 352.1L352 432.1C352 445 359.8 456.7 371.8 461.7C383.8 466.7 397.5 463.9 406.7 454.8L566.7 294.8C579.2 282.3 579.2 262 566.7 249.5L406.7 89.5C397.5 80.3 383.8 77.6 371.8 82.6z"/></svg>
+          </button>
+          <button class="detalhe-fab detalhe-fab-close" id="fecharDetalhe" title="Fechar">✕</button>
+          <button class="detalhe-fab detalhe-fab-edit" id="editBtn" title="Editar">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>
+          </button>
+        </div>
+        <!-- Título e nota sobrepostos no hero -->
+        <div class="detalhe-hero-info">
+          <div id="detalheFilmeBadge" class="detalhe-filme-badge" style="display:none">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M128 128C92.7 128 64 156.7 64 192L64 448C64 483.3 92.7 512 128 512L384 512C419.3 512 448 483.3 448 448L448 192C448 156.7 419.3 128 384 128L128 128zM496 400L569.5 458.8C573.7 462.2 578.9 464 584.3 464C597.4 464 608 453.4 608 440.3L608 199.7C608 186.6 597.4 176 584.3 176C578.9 176 573.7 177.8 569.5 181.2L496 240L496 400z"/></svg>
+            Filme Anime
+          </div>
+          <h2 id="detalheNome"></h2>
+          <div class="detalhe-hero-meta">
+            <span id="detalheNota" class="detalhe-nota-badge"></span>
+            <div class="genero-tags-inline" id="detalheGenerosTags" style="display:none"></div>
+          </div>
+        </div>
       </div>
-      <p id="detalheNota"></p>
-      <div class="genero-tags-inline" id="detalheGenerosTags" style="display:none"></div>
 
-      <!-- Mover entre listas -->
-      <div class="mover-lista-wrap">
-        <label class="mover-lista-label">📂 Mover para</label>
-        <select id="moverParaLista" class="mover-lista-select">
-          <option value="assistindo">▶ Assistindo</option>
-          <option value="assistidos">✅ Assistidos</option>
-          <option value="paraAssistir">🕐 Para assistir</option>
-        </select>
+      <!-- Corpo do modal -->
+      <div class="detalhe-body">
+
+        <!-- Mover entre listas -->
+        <div class="mover-lista-wrap">
+          <label class="mover-lista-label">📂 Mover para</label>
+          <select id="moverParaLista" class="mover-lista-select">
+            <option value="assistindo">▶ Assistindo</option>
+            <option value="assistidos">✅ Assistidos</option>
+            <option value="paraAssistir">🕐 Para assistir</option>
+          </select>
+        </div>
+
+        <!-- Episódios editáveis -->
+        <div id="detalheEpisodios" class="detalhe-eps-wrap"></div>
+
+        <textarea id="detalheObs" placeholder="✏️  Adicione uma observação..."></textarea>
+        <button id="deleteBtn">🗑 Excluir</button>
       </div>
 
-      <!-- Episódios editáveis -->
-      <div id="detalheEpisodios" class="detalhe-eps-wrap"></div>
-
-      <textarea id="detalheObs" placeholder="Adicione uma observação..."></textarea>
-      <button id="deleteBtn">🗑 Excluir Anime</button>
     </div>
   </div>
 

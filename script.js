@@ -312,7 +312,7 @@ function abrirDetalhe(anime) {
   eb.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>`;
   document.getElementById("detalheCapa").src = anime.capa;
   document.getElementById("detalheNome").textContent = anime.nome;
-  document.getElementById("detalheNota").textContent = anime.nota + "/10";
+  document.getElementById("detalheNota").textContent = "⭐ " + anime.nota + " / 10";
   document.getElementById("detalheObs").value = anime.observacao || "";
   document.getElementById("moverParaLista").value = anime.status;
 
@@ -320,7 +320,7 @@ function abrirDetalhe(anime) {
   const filmeBadge = document.getElementById("detalheFilmeBadge");
   filmeBadge.style.display = anime.tipo === "filme" ? "inline-flex" : "none";
 
-  // Gêneros laterais
+  // Gêneros no hero
   const tagsEl = document.getElementById("detalheGenerosTags");
   if (anime.generos && anime.generos.length > 0) {
     tagsEl.innerHTML = renderizarTagsGenero(anime.generos);
@@ -398,13 +398,27 @@ document.getElementById("editBtn").addEventListener("click", () => {
   const capa = document.getElementById("detalheCapa");
   const nome = document.getElementById("detalheNome");
   const nota = document.getElementById("detalheNota");
+  const detalheBody = document.querySelector(".detalhe-body");
   if (!animeAtual) return;
   const EDIT_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M416.9 85.2L372 130.1L509.9 268L554.8 223.1C568.4 209.6 576 191.2 576 172C576 152.8 568.4 134.4 554.8 120.9L519.1 85.2C505.6 71.6 487.2 64 468 64C448.8 64 430.4 71.6 416.9 85.2zM338.1 164L122.9 379.1C112.2 389.8 104.4 403.2 100.3 417.8L64.9 545.6C62.6 553.9 64.9 562.9 71.1 569C77.3 575.1 86.2 577.5 94.5 575.2L222.3 539.7C236.9 535.6 250.2 527.9 261 517.1L476 301.9L338.1 164z"/></svg>`;
   const SAVE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M256 416.1L131.3 291.3L86.06 336.6L256 506.5L553.9 208.6L508.7 163.4L256 416.1z"/></svg>`;
   if (!editMode) {
-    nome.innerHTML = `<input type="text" id="editNome" value="${animeAtual.nome}">`;
-    nota.innerHTML = `<input type="number" id="editNota" value="${animeAtual.nota}" min="0" max="10" step="0.1">`;
-    capa.insertAdjacentHTML("afterend", `<input type="text" id="editCapa" class="edit-capa-input" value="${animeAtual.capa}" placeholder="URL da capa">`);
+    // Nome e nota editáveis sobre o hero (fundo escuro, texto branco)
+    nome.innerHTML = `<input type="text" id="editNome" class="detalhe-edit-input detalhe-edit-nome" value="${animeAtual.nome}">`;
+    nota.innerHTML = `<input type="number" id="editNota" class="detalhe-edit-input detalhe-edit-nota" value="${animeAtual.nota}" min="0" max="10" step="0.1">`;
+    // Capa e data no corpo do modal
+    const dataAtual = animeAtual.dataCriacao
+      ? new Date(animeAtual.dataCriacao).toISOString().slice(0, 10)
+      : new Date(animeAtual.id).toISOString().slice(0, 10);
+    detalheBody.insertAdjacentHTML("afterbegin", `
+      <div class="edit-fields-group">
+        <input type="text" id="editCapa" class="edit-capa-input" value="${animeAtual.capa}" placeholder="URL da capa">
+        <div class="edit-data-wrap">
+          <label class="edit-data-label">📅 Data de adição</label>
+          <input type="date" id="editData" class="edit-capa-input" value="${dataAtual}">
+        </div>
+      </div>
+    `);
     document.getElementById("editBtn").innerHTML = SAVE_SVG;
     document.getElementById("editBtn").classList.add("saving");
     editMode = true;
@@ -413,10 +427,12 @@ document.getElementById("editBtn").addEventListener("click", () => {
     animeAtual.nota = document.getElementById("editNota").value;
     animeAtual.capa = document.getElementById("editCapa").value;
     animeAtual.observacao = document.getElementById("detalheObs").value;
+    const editDataVal = document.getElementById("editData") ? document.getElementById("editData").value : null;
+    if (editDataVal) animeAtual.dataCriacao = new Date(editDataVal + "T12:00:00").getTime();
     localStorage.setItem("animes", JSON.stringify(animes));
-    document.getElementById("editCapa").remove();
+    document.querySelector(".edit-fields-group")?.remove();
     nome.textContent = animeAtual.nome;
-    nota.textContent = animeAtual.nota + "/10";
+    nota.textContent = "⭐ " + animeAtual.nota + " / 10";
     capa.src = animeAtual.capa;
     renderizarAnimes();
     document.getElementById("editBtn").innerHTML = EDIT_SVG;
