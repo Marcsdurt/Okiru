@@ -270,6 +270,9 @@ document.getElementById("tipoBtnFilme").addEventListener("click", () => atualiza
 
 document.querySelector(".btn-add").addEventListener("click", () => {
   atualizarTipoModal("anime");
+  // Define a data padrão como hoje
+  const hoje = new Date().toISOString().slice(0, 10);
+  document.getElementById("dataAdicao").value = hoje;
   modal.style.display = "flex";
 });
 document.getElementById("fechar").addEventListener("click", () => modal.style.display = "none");
@@ -289,11 +292,13 @@ document.getElementById("salvar").addEventListener("click", () => {
   const assistidosEps = isFilme ? 0 : Math.min(parseInt(document.getElementById("assistidosEps").value) || 0, totalEps || 99999);
   const duracao = isFilme ? (parseInt(document.getElementById("duracao").value) || 0) : 0;
   if (!nome || !capa || !nota) { alert("Preencha os campos obrigatórios!"); return; }
-  animes.push({ id: Date.now(), nome, nota, capa, status, observacao: "", totalEps, assistidosEps, tipo: isFilme ? "filme" : "anime", duracao });
+  const dataInputVal = document.getElementById("dataAdicao").value;
+  const dataCriacao = dataInputVal ? new Date(dataInputVal + "T12:00:00").getTime() : Date.now();
+  animes.push({ id: Date.now(), dataCriacao, nome, nota, capa, status, observacao: "", totalEps, assistidosEps, tipo: isFilme ? "filme" : "anime", duracao });
   localStorage.setItem("animes", JSON.stringify(animes));
   renderizarAnimes();
   modal.style.display = "none";
-  ["nome","capa","nota","totalEps","assistidosEps","duracao"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+  ["nome","capa","nota","totalEps","assistidosEps","duracao","dataAdicao"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
 });
 
 // ======== MODAL DETALHE ========
@@ -759,7 +764,7 @@ function renderizarStats() {
   // ── Seção 1: Animes do mês ──
   document.getElementById("statsMesNome").textContent = meses[mesAtual] + " " + anoAtual;
   const inicioMes = new Date(anoAtual, mesAtual, 1).getTime();
-  const animesDoMes = animes.filter(a => a.id >= inicioMes);
+  const animesDoMes = animes.filter(a => (a.dataCriacao || a.id) >= inicioMes);
   const mesLista = document.getElementById("statsMesLista");
   if (animesDoMes.length === 0) {
     mesLista.innerHTML = "<p class='stats-empty'>Nenhum anime adicionado este mês ainda.</p>";
@@ -981,6 +986,9 @@ function abrirDetalheAnime(anime) {
 
   const btn = document.getElementById("sdAddBtn");
   btn.textContent = "+ Adicionar ao Organizador"; btn.disabled = false; btn.style.background = "";
+  // Define data padrão como hoje
+  const sdDataEl = document.getElementById("sdDataAdicao");
+  if (sdDataEl) sdDataEl.value = new Date().toISOString().slice(0, 10);
   searchDetailOverlay.style.display = "flex";
 }
 
@@ -1024,7 +1032,9 @@ document.getElementById("sdAddBtn").addEventListener("click", async () => {
   const tipoApi = sdAnimeData.type || "";
   const isFilmeApi = tipoApi === "Movie";
   const duracao = isFilmeApi ? (sdAnimeData.duration ? parseInt(sdAnimeData.duration) || 0 : 0) : 0;
-  animes.push({ id: Date.now(), nome: titulo, nota: parseFloat(nota).toFixed(1), capa, status, observacao: "", totalEps, assistidosEps, ano, studio, sinopse, generos, tipo: isFilmeApi ? "filme" : "anime", duracao });
+  const sdDataVal = document.getElementById("sdDataAdicao")?.value;
+  const dataCriacao = sdDataVal ? new Date(sdDataVal + "T12:00:00").getTime() : Date.now();
+  animes.push({ id: Date.now(), dataCriacao, nome: titulo, nota: parseFloat(nota).toFixed(1), capa, status, observacao: "", totalEps, assistidosEps, ano, studio, sinopse, generos, tipo: isFilmeApi ? "filme" : "anime", duracao });
   localStorage.setItem("animes", JSON.stringify(animes));
   renderizarAnimes();
   btn.textContent = "✅ Adicionado!"; btn.style.background = "#4caf50";

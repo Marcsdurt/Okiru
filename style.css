@@ -454,7 +454,7 @@ body.dark .detalhe-filme-badge { background: rgba(80, 40, 140, 0.35); border-col
 .sd-desc { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 18px; max-height: 120px; overflow-y: auto; padding: 10px; background: #f8f8fb; border-radius: 10px; }
 .sd-add-section { display: flex; flex-direction: column; gap: 8px; }
 .sd-add-section label { font-size: 13px; font-weight: 600; color: #444; }
-.sd-add-section select, .sd-add-section input[type="number"] { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; background: #f7f7fa; font-family: 'Nunito', sans-serif; }
+.sd-add-section select, .sd-add-section input[type="number"], .sd-add-section input[type="date"] { padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 14px; background: #f7f7fa; font-family: 'Nunito', sans-serif; }
 .sd-eps-row { display: flex; gap: 10px; }
 .sd-eps-row > div { flex: 1; display: flex; flex-direction: column; gap: 4px; }
 .sd-eps-row input { width: 100%; }
